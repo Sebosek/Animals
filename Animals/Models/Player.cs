@@ -1,4 +1,4 @@
-﻿namespace Animals;
+﻿namespace Animals.Models;
 
 public class Player
 {

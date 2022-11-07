@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Animals.ViewModels;
 
 namespace Animals;
 
 public partial class AnimalsPage : ContentPage
 {
-    public AnimalsPage()
+    public AnimalsPage(AnimalsViewModel vm)
     {
+        BindingContext = vm;
+        
         InitializeComponent();
     }
 }

@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Animals.ViewModels;
 
-public partial class MainPageViewModel : ObservableObject
+public partial class AnimalsViewModel : ObservableObject
 {
     private readonly PlayersStore _store;
     
@@ -14,7 +14,7 @@ public partial class MainPageViewModel : ObservableObject
     [ObservableProperty]
     private int _index;
     
-    public MainPageViewModel(PlayersStore store)
+    public AnimalsViewModel(PlayersStore store)
     {
         Debug.WriteLine("Create a new instance of ViewModel");
         
