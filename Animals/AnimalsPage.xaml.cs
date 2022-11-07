@@ -15,4 +15,6 @@ public partial class AnimalsPage : ContentPage
         
         InitializeComponent();
     }
+
+    public AnimalsViewModel ViewModel => (AnimalsViewModel)BindingContext;
 }

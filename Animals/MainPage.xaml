@@ -28,6 +28,7 @@
                                 VerticalOptions="Center"
                                 Margin="12">
                                 <Label Text="{Binding Name}" />
+                                <Label Text="{Binding Animal}" />
                             </StackLayout>
                         </Grid>
                     </DataTemplate>

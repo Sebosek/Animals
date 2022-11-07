@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using Animals.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Animals.ViewModels;
 
@@ -9,43 +9,41 @@ namespace Animals.ViewModels;
 public partial class AnimalsViewModel : ObservableObject
 {
     private readonly PlayersStore _store;
-    
-    private Animal _selected;
 
     [ObservableProperty]
     private int _index;
+
+    private Animal _selected = Animal.None;
     
     public AnimalsViewModel(PlayersStore store)
     {
-        Debug.WriteLine("Create a new instance of ViewModel");
-        
         _store = store;
         Animals = new ObservableCollection<PickAnimal>();
-        
-        _store.Players.Subscribe(players =>
-        {
-            Animals.Clear();
-            
-            Enum.GetValues<Animal>().Select(s => new PickAnimal
+
+        _store
+            .Players
+            .Subscribe(players =>
             {
-                Animal = s,
-                Available = s != Animal.None && !players.Where((player, i) => i != _index && player.Animal == s).Any(),
-            }).ToList().ForEach(Animals.Add);
-        });
+                Animals.Clear();
+
+                Enum.GetValues<Animal>().Select(s => new PickAnimal
+                {
+                    Animal = s,
+                    Available = s != Animal.None &&
+                                !players.Where((player, i) => i != _index && player.Animal == s).Any(),
+                    Selected = s == _selected,
+                }).ToList().ForEach(Animals.Add);
+            });
     }
     
     public ObservableCollection<PickAnimal> Animals { get; }
-    
-    public Animal Selected
+
+    [RelayCommand]
+    public void HandleChange(PickAnimal pick)
     {
-        get => _selected;
-        set
-        {
-            Debug.WriteLine($"Incoming value: {value}, Current value: {_selected}");
-            
-            if (!SetProperty(ref _selected, value)) return;
-            
-            _store.SetAnimal(_index, _selected);
-        }
+        if (pick.Animal == _selected || !pick.Selected) return;
+
+        _selected = pick.Animal;
+        _store.SetAnimal(_index, _selected);
     }
 }

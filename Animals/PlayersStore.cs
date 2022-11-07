@@ -6,14 +6,9 @@ namespace Animals;
 
 public class PlayersStore
 {
-    private readonly BehaviorSubject<List<Player>> _players = new(Enumerable.Empty<Player>().ToList());
+    private readonly BehaviorSubject<List<Player>> _players = new(Enumerable.Range(0, 6).Select(_ => new Player()).ToList());
 
-    public PlayersStore()
-    {
-        _players.OnNext(Enumerable.Range(0, 6).Select(_ => new Player()).ToList());
-    }
-
-    public IObservable<IReadOnlyCollection<Player>> Players => _players;
+    public IObservable<IReadOnlyCollection<Player>> Players => _players.AsObservable();
 
     public void SetAnimal(int i, Animal animal)
     {
