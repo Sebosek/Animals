@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Animals.ViewModels;
 
+[QueryProperty("Index", "i")]
 public partial class AnimalsViewModel : ObservableObject
 {
     private readonly PlayersStore _store;
